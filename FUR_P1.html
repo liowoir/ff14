@@ -303,7 +303,7 @@ h1{font-family:'Cinzel',serif;font-size:clamp(15px,3.5vw,22px);font-weight:700;
   <div class="select-list" id="select-list"></div>
   <p class="prio-note">
     預設順序（高 → 低）：<strong>MT → ST → H1 → H2 → D1 → D2 → D3 → D4</strong><br>
-    可拖曳調整，順序將影響無職編號的分配
+    拖曳僅調整顯示排列，無職編號判定順序永遠固定不變
   </p>
   <div class="btn-row">
     <button class="btn" id="btn-confirm" onclick="confirmPos()" disabled>確定職位，開始練習</button>
@@ -379,7 +379,7 @@ let answered = false, sc = 0, sw = 0;
 // drag state
 let dragSrcPos = null, wasDragged = false;
 
-function getPrio(pos){ return priorityOrder.indexOf(pos) + 1; }
+function getPrio(pos){ return POSITIONS.indexOf(pos) + 1; }
 function getUnmarked(linkSet){ return POSITIONS.filter(p => !linkSet.includes(p)); }
 
 // ── INIT ──────────────────────────────────────
@@ -616,19 +616,19 @@ function showResult(ok, chosenType, chosenNum, cType, cNum){
 
   const li = linkPlayers.indexOf(myPos);
   const isLink = li !== -1;
-  const myPrio = getPrio(myPos);
+  const myFixedPrio = POSITIONS.indexOf(myPos); // 固定優先序 index (0-based)
   let html = '';
 
   if (isLink){
     html += `你是 <strong>${myPos}</strong>，被分配為 <span class="hl">連線${li+1}</span>，對應地圖上的 <span class="hl">連線${li+1}</span> 位置。`;
   } else {
-    const higherLinked = linkPlayers.filter(p => POSITIONS.indexOf(p) < POSITIONS.indexOf(myPos));
-    html += `你是 <strong>${myPos}</strong>（優先序 #${POSITIONS.indexOf(myPos)+1}），屬無職玩家。<br>`;
-    html += `比你優先的角色：<strong>${POSITIONS.filter(p => POSITIONS.indexOf(p) < POSITIONS.indexOf(myPos)).join('、') || '無'}</strong><br>`;
+    const higherLinked = linkPlayers.filter(p => POSITIONS.indexOf(p) < myFixedPrio);
+    html += `你是 <strong>${myPos}</strong>（優先序 #${myFixedPrio+1}），屬無職玩家。<br>`;
+    html += `比你優先的角色：<strong>${POSITIONS.filter(p => POSITIONS.indexOf(p) < myFixedPrio).join('、') || '無'}</strong><br>`;
     if (higherLinked.length) html += `其中 <span class="hl">${higherLinked.join('、')}</span> 為連線，排除後剩餘：<br>`;
     html += `無職依優先序：` +
       unmarkedPlayers.map((p,i) => {
-        const s = p===myPos ? ' style="color:var(--gold-light);font-weight:700"' : ' style="color:var(--text-dim)"';
+        const s = p===myPos ? ' style="color:var(--gold-light);font-weight:700"' : ' style="color:#ffffff"';
         return `<span${s}>${p}＝無職${i+1}</span>`;
       }).join(' → ');
     html += `<br>你是 <span class="hu">無職${cNum}</span>，應前往地圖 <span class="hu">無職${cNum}</span> 位置。`;
@@ -644,5 +644,8 @@ function updateStats(){
   document.getElementById('sa').textContent = t ? Math.round(sc/t*100) + '%' : '—';
 }
 </script>
+
+<p style="margin-top:24px;font-size:10px;color:#3a3e4a;letter-spacing:1px;text-align:center">Last updated: 2026-05-13 10:18 PM</p>
+
 </body>
 </html>
