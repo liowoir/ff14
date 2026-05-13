@@ -380,7 +380,7 @@ let answered = false, sc = 0, sw = 0;
 let dragSrcPos = null, wasDragged = false;
 
 function getPrio(pos){ return priorityOrder.indexOf(pos) + 1; }
-function getUnmarked(linkSet){ return priorityOrder.filter(p => !linkSet.includes(p)); }
+function getUnmarked(linkSet){ return POSITIONS.filter(p => !linkSet.includes(p)); }
 
 // ── INIT ──────────────────────────────────────
 (function(){ buildSelectList(); document.getElementById('sec-select').classList.add('active'); })();
@@ -622,9 +622,9 @@ function showResult(ok, chosenType, chosenNum, cType, cNum){
   if (isLink){
     html += `你是 <strong>${myPos}</strong>，被分配為 <span class="hl">連線${li+1}</span>，對應地圖上的 <span class="hl">連線${li+1}</span> 位置。`;
   } else {
-    const higherLinked = linkPlayers.filter(p => getPrio(p) < myPrio);
-    html += `你是 <strong>${myPos}</strong>（優先序 #${myPrio}），屬無職玩家。<br>`;
-    html += `比你優先的角色：<strong>${priorityOrder.filter(p => getPrio(p) < myPrio).join('、') || '無'}</strong><br>`;
+    const higherLinked = linkPlayers.filter(p => POSITIONS.indexOf(p) < POSITIONS.indexOf(myPos));
+    html += `你是 <strong>${myPos}</strong>（優先序 #${POSITIONS.indexOf(myPos)+1}），屬無職玩家。<br>`;
+    html += `比你優先的角色：<strong>${POSITIONS.filter(p => POSITIONS.indexOf(p) < POSITIONS.indexOf(myPos)).join('、') || '無'}</strong><br>`;
     if (higherLinked.length) html += `其中 <span class="hl">${higherLinked.join('、')}</span> 為連線，排除後剩餘：<br>`;
     html += `無職依優先序：` +
       unmarkedPlayers.map((p,i) => {
