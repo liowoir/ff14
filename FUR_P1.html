@@ -354,7 +354,7 @@ h1{font-family:'Cinzel',serif;font-size:clamp(15px,3.5vw,22px);font-weight:700;
 
 <script>
 // ── Constants ─────────────────────────────────
-const POSITIONS = ['MT','ST','H1','H2','D1','D2','D3','D4'];
+const POSITIONS = ['H1','H2','MT','ST','D1','D2','D3','D4'];
 const ROLE    = {MT:'tank',ST:'tank',H1:'healer',H2:'healer',D1:'dps',D2:'dps',D3:'dps',D4:'dps'};
 const ROLE_LBL= {MT:'主坦',ST:'副坦',H1:'奶媽1',H2:'奶媽2',D1:'近戰1',D2:'近戰2',D3:'遠程3',D4:'遠程4'};
 const JOB_LTR = {MT:'T',ST:'T',H1:'H',H2:'H',D1:'D',D2:'D',D3:'D',D4:'D'};
@@ -371,7 +371,7 @@ const ARENA_NODES = [
 ];
 
 // ── State ─────────────────────────────────────
-let priorityOrder = [...POSITIONS]; // user-adjustable
+let priorityOrder = ['MT','ST','H1','H2','D1','D2','D3','D4']; // user-adjustable
 let myPos = null;
 let linkPlayers = [], unmarkedPlayers = [];
 let answered = false, sc = 0, sw = 0;
@@ -416,7 +416,7 @@ function buildSelectList(){
 }
 
 function resetOrder(){
-  priorityOrder = [...POSITIONS];
+  priorityOrder = ['MT','ST','H1','H2','D1','D2','D3','D4'];
   buildSelectList();
 }
 
@@ -645,7 +645,7 @@ function updateStats(){
 }
 </script>
 
-<p style="margin-top:24px;font-size:10px;color:#3a3e4a;letter-spacing:1px;text-align:center">Last updated: 2026-05-13 10:18 PM</p>
+<p style="margin-top:24px;font-size:10px;color:#3a3e4a;letter-spacing:1px;text-align:center">Last updated: 2026-05-15 11:14 PM</p>
 
 </body>
 </html>
